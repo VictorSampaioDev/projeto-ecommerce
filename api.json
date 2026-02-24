@@ -1,4 +1,24 @@
 {
-    "produtos": [],
-    "usuarios": []
+    "product": [
+        {
+            "id": 1,
+            "name": "Tênis Esportivo",
+            "slug": "tenis-esportivo",
+            "preco": 199.99,
+            "descricao": "Tênis confortável, ideal para corrida e academia.",
+            "categoria": "Calçados",
+            "estoque": 15,
+            "avaliacao": 4.5,
+            "imagens": [
+                "https://via.placeholder.com/400x400?text=Tenis+1",
+                "https://via.placeholder.com/400x400?text=Tenis+2",
+                "https://via.placeholder.com/400x400?text=Tenis+3"
+            ],
+            "detalhes": [
+                "Material respirável",
+                "Solado antiderrapante",
+                "Disponível nos tamanhos 36-44"
+            ]
+        }
+    ]
 }

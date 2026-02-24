@@ -2,5 +2,18 @@
 
 
 :root {
-    
+    --bg: #43464b;
+    --bgButton: #9e57b7;
+    --fontP: 14px;
+    --fontM: 18px;
+    --fontG: 24px;
+    --bgCard: #28272c;
+    --textColor: #68686a;
+    --bgImgProduto: #ededed;
+    --bgCardProduto: #f0f0f0;
+    --font: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", ;
+    --border: 16px;
+    --borderWidth: 1px;
+    --duration: 600;
+    --bgHover: #6e11b0;
 }
