@@ -1,24 +1,23 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router";
 import { AXIOS } from "../services";
+import { useParams } from "react-router";
 
 const PageProduct = () => {
     const { slug } = useParams();
     const [produto, setProduto] = useState(null);
-    const [imagemAtiva, setImagemAtiva] = useState(0);
+    const [startIndex, setStartIndex] = useState(0); // primeira miniatura visível
+    const [imagemAtiva, setImagemAtiva] = useState(0); // imagem principal
     const [quantidade, setQuantidade] = useState(1);
+    const [cep, setCep] = useState("");
+    const [frete, setFrete] = useState(null);
 
     useEffect(() => {
         async function buscarProduto() {
             try {
-                const response = await AXIOS.get("/product");
-                // Aqui assumimos que response.data já é o array de produtos
-                const produtos = Array.isArray(response.data) ? response.data : [];
-
-                const produtoEncontrado = produtos.find(
+                const request = await AXIOS.get("/product");
+                const produtoEncontrado = request.data.find(
                     (p) => p.slug.toLowerCase() === slug.toLowerCase()
                 );
-
                 setProduto(produtoEncontrado);
             } catch (error) {
                 console.error("Erro ao buscar produto:", error.message);
@@ -29,92 +28,147 @@ const PageProduct = () => {
 
     if (!produto) return <p className="text-center mt-10">Produto não encontrado...</p>;
 
-    const imagens = produto.imagens && produto.imagens.length > 0
+    const imagens = produto?.imagens?.length
         ? produto.imagens
         : ["https://via.placeholder.com/400x400"];
+    const precoFinal = produto ? produto.preco - (produto.preco * produto.desconto / 100) : 0;
 
-    const alterarQuantidade = (delta) => {
-        setQuantidade(prev => Math.max(1, prev + delta));
+    // Carrossel
+    const next = () => {
+        if (startIndex < imagens.length - 3) setStartIndex(startIndex + 1);
+    };
+    const prev = () => {
+        if (startIndex > 0) setStartIndex(startIndex - 1);
     };
 
+    // Calcular frete (exemplo)
+    async function calcular(cep, peso) {
+        try {
+            const response = await AXIOS.get("https://api-correios.com/frete", {
+                params: {
+                    cepOrigem: "61.658-050",
+                    cep,
+                    peso,
+                    serviço: "SEDEX",
+                },
+            });
+            setFrete(response.data.valor);
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
     return (
-        <main className="flex flex-col md:flex-row justify-center items-start mt-10 px-4 md:px-20 gap-10">
-            {/* Imagens */}
-            <div className="flex flex-col gap-4">
+        <main className="bg-[#43464b] p-20 flex justify-center gap-10 text-gray-100">
+            {/* Coluna das imagens */}
+            <div className="flex flex-col gap-6 items-center">
                 <img
                     src={imagens[imagemAtiva]}
-                    alt={produto.name}
-                    className="w-96 h-96 object-cover border rounded-lg"
+                    alt={`Imagem principal`}
+                    className="w-96 h-96 object-cover border-2 rounded-xl shadow-lg"
                 />
-                <div className="flex gap-2">
-                    {imagens.map((img, index) => (
-                        <img
-                            key={index}
-                            src={img}
-                            alt={`miniatura ${index}`}
-                            className={`w-20 h-20 object-cover border rounded-lg cursor-pointer ${index === imagemAtiva ? "border-blue-500" : "border-gray-300"}`}
-                            onClick={() => setImagemAtiva(index)}
-                        />
-                    ))}
+
+                {/* Carrossel de miniaturas */}
+                <div className="flex items-center gap-2 mt-2">
+                    <button
+                        onClick={prev}
+                        disabled={startIndex === 0}
+                        className="px-3 py-1 bg-gray-700 text-white rounded-lg hover:bg-gray-800 disabled:opacity-50 transition"
+                    >
+                        &lt;
+                    </button>
+
+                    <div className="flex gap-3 overflow-hidden w-[336px]">
+                        {imagens.slice(startIndex, startIndex + 3).map((img, idx) => {
+                            const actualIndex = startIndex + idx;
+                            return (
+                                <img
+                                    key={actualIndex}
+                                    src={img}
+                                    alt={`Miniatura ${actualIndex}`}
+                                    onClick={() => setImagemAtiva(actualIndex)}
+                                    className={`w-32 h-32 object-cover border-2 rounded-lg cursor-pointer transition-all duration-300 hover:scale-105 ${actualIndex === imagemAtiva
+                                            ? "border-blue-500 scale-110 shadow-lg"
+                                            : "border-gray-300"
+                                        }`}
+                                />
+                            );
+                        })}
+                    </div>
+
+                    <button
+                        onClick={next}
+                        disabled={startIndex >= imagens.length - 3}
+                        className="px-3 py-1 bg-gray-700 text-white rounded-lg hover:bg-gray-800 disabled:opacity-50 transition"
+                    >
+                        &gt;
+                    </button>
                 </div>
             </div>
 
-            {/* Informações */}
-            <div className="flex flex-col gap-4 max-w-md">
-                <h1 className="text-3xl font-bold">{produto.name}</h1>
-                <p className="text-xl text-green-600 font-semibold">R$ {produto.preco.toFixed(2)}</p>
-                {produto.avaliacao && (
-                    <p className="text-yellow-500">
-                        Avaliação: {"★".repeat(Math.round(produto.avaliacao))} ({produto.avaliacao.toFixed(1)})
-                    </p>
-                )}
-                {produto.estoque !== undefined && (
-                    <p className={`font-medium ${produto.estoque > 0 ? "text-green-600" : "text-red-600"}`}>
-                        {produto.estoque > 0 ? `Em estoque: ${produto.estoque}` : "Indisponível"}
-                    </p>
-                )}
-                {produto.categoria && <p className="text-gray-500">Categoria: {produto.categoria}</p>}
-
-                <p className="text-gray-700">{produto.descricao}</p>
-
-                {/* Quantidade */}
-                <div className="flex items-center gap-2 mt-4">
-                    <button
-                        className="px-3 py-1 border rounded hover:bg-gray-200"
-                        onClick={() => alterarQuantidade(-1)}
-                    >
-                        -
-                    </button>
-                    <span className="px-2">{quantidade}</span>
-                    <button
-                        className="px-3 py-1 border rounded hover:bg-gray-200"
-                        onClick={() => alterarQuantidade(1)}
-                    >
-                        +
-                    </button>
+            {/* Coluna de informações */}
+            <div className="flex flex-col gap-6 w-96">
+                {/* Breadcrumb */}
+                <div className="flex gap-2 text-xs text-gray-400 hover:text-blue-400 transition">
+                    <a href="/" className="hover:underline">Início</a> &gt;
+                    <a href={`/categoria/${produto.categoria.toLowerCase()}`} className="hover:underline">{produto.categoria}</a> &gt;
+                    <span>{produto.name}</span>
                 </div>
 
-                {/* Botões */}
-                <div className="flex gap-4 mt-6">
-                    <button className="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 transition">
-                        Adicionar ao Carrinho
-                    </button>
-                    <button className="bg-gray-200 px-6 py-2 rounded hover:bg-gray-300 transition">
-                        Comprar Agora
-                    </button>
-                </div>
-
-                {/* Detalhes adicionais */}
-                {produto.detalhes && (
-                    <div className="mt-6">
-                        <h2 className="font-bold text-lg mb-2">Detalhes do Produto:</h2>
-                        <ul className="list-disc list-inside text-gray-700">
-                            {produto.detalhes.map((item, index) => (
-                                <li key={index}>{item}</li>
-                            ))}
-                        </ul>
+                {/* Nome e preço */}
+                <div className="flex flex-col gap-3">
+                    <h1 className="text-3xl font-extrabold">{produto.name}</h1>
+                    <div className="flex flex-col gap-1">
+                        <span className="text-xl text-gray-400">
+                            R$<span className={`${produto.desconto > 0 ? 'line-through' : ''}`}>{produto.preco.toFixed(2)}</span>
+                        </span>
+                        {produto.desconto > 0 && (
+                            <span className="text-2xl text-green-400 font-bold">
+                                R$ {precoFinal.toFixed(2)}
+                            </span>
+                        )}
                     </div>
-                )}
+                </div>
+
+                {/* Quantidade e comprar */}
+                <div className="flex items-center gap-4">
+                    <div className="flex items-center justify-between gap-4 border rounded-lg p-3">
+                        <button onClick={() => quantidade > 1 && setQuantidade(quantidade - 1)}>&lt;</button>
+                        <span className="font-bold">{quantidade}</span>
+                        <button onClick={() => quantidade < produto.estoque && setQuantidade(quantidade + 1)}>&gt;</button>
+                    </div>
+                    <a href="" className="flex-1 p-3 text-center bg-purple-600 hover:bg-purple-700 rounded-lg font-bold transition">
+                        Comprar
+                    </a>
+                </div>
+
+                {/* CEP / Frete */}
+                <div className="flex flex-col gap-2">
+                    <p className="font-semibold text-gray-200">Meus Envios</p>
+                    <div className="flex gap-2">
+                        <input
+                            type="text"
+                            placeholder="Seu CEP"
+                            className="flex-1 p-2 rounded-lg border border-gray-600 bg-gray-700 text-white outline-none"
+                            onChange={(e) => setCep(e.target.value)}
+                        />
+                        <button
+                            className="px-4 bg-purple-600 hover:bg-purple-700 rounded-lg transition text-white font-semibold"
+                            onClick={() => calcular(cep, produto.peso)}
+                        >
+                            Calcular
+                        </button>
+                    </div>
+                    {frete && <p className="text-green-400 font-semibold mt-1">Frete estimado: R$ {frete}</p>}
+                </div>
+
+                {/* Descrição */}
+                <div className="flex flex-col gap-2">
+                    <h2 className="text-lg font-bold">Descrição</h2>
+                    <p className="max-h-48 overflow-y-auto break-words p-2 rounded-lg bg-gray-700">
+                        {produto.descricao}
+                    </p>
+                </div>
             </div>
         </main>
     );

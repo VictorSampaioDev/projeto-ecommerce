@@ -5,14 +5,23 @@
             "name": "Tênis Esportivo",
             "slug": "tenis-esportivo",
             "preco": 199.99,
-            "descricao": "Tênis confortável, ideal para corrida e academia.",
+            "desconto": 100,
+            "descricao": "asdjashdjashdjahsdjahsdjahsjdhasjdhasjdhasjdhajsdhajsdhajsdhajsdhajshdajsdhajshdjasdhjashdjadhjasdhajshdajsdhasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasd",
             "categoria": "Calçados",
             "estoque": 15,
+            "peso": 30.3,
             "avaliacao": 4.5,
             "imagens": [
-                "https://via.placeholder.com/400x400?text=Tenis+1",
-                "https://via.placeholder.com/400x400?text=Tenis+2",
-                "https://via.placeholder.com/400x400?text=Tenis+3"
+                "/vite.svg",
+                "/vite.svg",
+                "/vite.svg",
+                "/vite.svg",
+                "/vite.svg",
+                "/vite.svg",
+                "/vite.svg",
+                "/vite.svg",
+                "/vite.svg",
+                "/vite.svg"
             ],
             "detalhes": [
                 "Material respirável",
