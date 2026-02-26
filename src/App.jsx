@@ -1,17 +1,12 @@
+import { HeadProvider } from "react-head";
 import Header from "./components/Header";
 import Menu from "./components/Menu";
+import Paths from "./routes/Paths";
 function App() {
   return (
-    <>
-      <Header />
-      <Menu />
-      
-      <main className="p-6">
-        <h1 className="text-2xl font-bold">
-          Conteúdo da página
-        </h1>
-      </main>
-    </>
+    <HeadProvider>
+      <Paths />
+    </HeadProvider>
   );
 }
 
