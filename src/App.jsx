@@ -1,9 +1,12 @@
+import { HeadProvider } from "react-head";
 import Paths from "./routes/Paths";
 
 const App = () => {
-  return ( 
-    <Paths/>
-   );
+  return (
+    <HeadProvider>
+      <Paths />
+    </HeadProvider>
+  );
 }
- 
+
 export default App;
