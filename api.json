@@ -1,4 +1,33 @@
 {
-    "produtos": [],
-    "usuarios": []
+    "product": [
+        {
+            "id": 1,
+            "name": "Tênis Esportivo",
+            "slug": "tenis-esportivo",
+            "preco": 199.99,
+            "desconto": 100,
+            "descricao": "asdjashdjashdjahsdjahsdjahsjdhasjdhasjdhasjdhajsdhajsdhajsdhajsdhajshdajsdhajshdjasdhjashdjadhjasdhajshdajsdhasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasd",
+            "categoria": "Calçados",
+            "estoque": 15,
+            "peso": 30.3,
+            "avaliacao": 4.5,
+            "imagens": [
+                "/vite.svg",
+                "/vite.svg",
+                "/vite.svg",
+                "/vite.svg",
+                "/vite.svg",
+                "/vite.svg",
+                "/vite.svg",
+                "/vite.svg",
+                "/vite.svg",
+                "/vite.svg"
+            ],
+            "detalhes": [
+                "Material respirável",
+                "Solado antiderrapante",
+                "Disponível nos tamanhos 36-44"
+            ]
+        }
+    ]
 }
