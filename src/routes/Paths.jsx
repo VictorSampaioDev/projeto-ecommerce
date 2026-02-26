@@ -4,6 +4,7 @@ import Login from "../pages/Login";
 import Register from "../pages/Register";
 import ForgotPassword from "../pages/ForgotPassword";
 import PageLayout from "../layouts/PageLayout";
+import AuthLayout from "../layouts/AuthLayout";
 
 const Paths = () => {
     return (
