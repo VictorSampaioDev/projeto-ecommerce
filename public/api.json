@@ -1,0 +1,28 @@
+{
+  "products": [
+    {
+      "id": 1,
+      "title": "Model T-02 Dragon",
+      "price": 189.90,
+      "imageUrl": "/assets/dragon-hero.png"
+    },
+    {
+      "id": 2,
+      "title": "Robô Voxel Tech",
+      "price": 49.90,
+      "imageUrl": "/assets/robo-voxel.jpg"
+    },
+    {
+      "id": 3,
+      "title": "Caveira Cyber Gótica",
+      "price": 120.00,
+      "imageUrl": "/assets/cyber-skull.jpg"
+    },
+    {
+      "id": 4,
+      "title": "Miniatura Alien Tech",
+      "price": 85.50,
+      "imageUrl": "/assets/alien-min.png"
+    }
+  ]
+}
