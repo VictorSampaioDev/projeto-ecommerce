@@ -7,7 +7,9 @@ const PageLayout = () => {
         <div>
             <Header/>
             <div>
+
             <Outlet/>
+            
             </div>
             <Footer/>
         </div>
