@@ -1,8 +1,6 @@
 import { FaSearch, FaUser, FaShoppingCart, FaWhatsapp } from "react-icons/fa";
 
 export default function Header() {
-
-
     return (
         <header className="bg-gradient-to-r from-zinc-800 to-zinc-900 text-white">
             <div className="max-w-7xl mx-auto flex items-center justify-between px-6 py-4">

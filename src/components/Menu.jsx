@@ -4,6 +4,9 @@ import { FaBars, FaTimes } from "react-icons/fa";
 export default function Menu() {
   const [open, setOpen] = useState(false);
 
+
+
+  
   const links = [
     { name: "Início", href: "#" },
     { name: "Quem Somos", href: "#" },
