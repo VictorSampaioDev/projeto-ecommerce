@@ -14,15 +14,17 @@ const Paths = () => {
                 <Route path="/" element={<PageLayout />}>
                     <Route index element={<Home />} />
                 </Route>
+
+                
                 <Route path="/" element={<AuthLayout />}>
                     <Route path="/login" element={<Login />} />
+                    <Route path="/register" element={<Register />} />
+                    <Route path="/forgot-password" element={<ForgotPassword />} />
                     <Route path="/product/:slug" element={<PageProduct />} />
                 </Route>
                 <Route path="/dashboard" element={''}>
                 </Route>
-                <Route path="/login" element={<Login />} />
-                <Route path="/register" element={<Register />} />
-                <Route path="/forgot-password" element={<ForgotPassword />} />
+
             </Routes>
         </BrowserRouter>
     );
