@@ -1,6 +1,8 @@
 import { BrowserRouter, Route, Routes } from "react-router";
 import Home from "../pages/Home";
 import Login from "../pages/Login";
+import Register from "../pages/Register";
+import ForgotPassword from "../pages/ForgotPassword";
 import PageLayout from "../layouts/PageLayout";
 import AuthLayout from "../layouts/AuthLayout";
 import PageProduct from "../pages/PageProduct";
@@ -18,6 +20,9 @@ const Paths = () => {
                 </Route>
                 <Route path="/dashboard" element={''}>
                 </Route>
+                <Route path="/login" element={<Login />} />
+                <Route path="/register" element={<Register />} />
+                <Route path="/forgot-password" element={<ForgotPassword />} />
             </Routes>
         </BrowserRouter>
     );
