@@ -3,7 +3,7 @@ import {AXIOS} from "../services"
 
 export default function Login() {
     const [form, setForm] = useState({
-        username: "",
+        email: "",
         password: "",
     });
 
@@ -96,7 +96,7 @@ export default function Login() {
                         </button>
                     </form>
 
-                    <p className="mt-6 texxt-center text-sm text-gray-600">
+                    <p className="mt-6 text-center text-sm text-gray-600">
                         Não tem uma conta?{""}
                         <a
                             href="/register"
