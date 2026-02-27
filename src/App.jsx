@@ -6,8 +6,8 @@ import Categoria from "./components/Categoria";
 const App = () => {
   return (
     <HeadProvider>
+     <Categoria/>
       <Depoimentos />
-      <Categoria/>
       <Paths />
     </HeadProvider>
   );
